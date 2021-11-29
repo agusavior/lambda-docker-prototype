@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "lambda-docker-prototype"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-alzt7f8z9ec2"
+s3_prefix = "lambda-docker-prototype"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"
+image_repositories = ["HelloWorldFunction=174056561513.dkr.ecr.us-east-1.amazonaws.com/lambdadockerprototype3e137bc7/helloworldfunction19d43fc4repo"]
