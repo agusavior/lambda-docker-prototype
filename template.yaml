@@ -1,14 +1,15 @@
+# Any Cloudformation template can be run through SAM unchanged, and it will work. SAM supports all the types available in Cloudformation templates, so you can think of SAM as "CloudFormation++"
+# So you can use this file as a Cloudformation template.
+
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  python3.9
-
-  Sample SAM Template for lambda-docker-prototype
+  Lambda App that uses Docker images for its functions.
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 899 # Less than 900
 
 Resources:
   HelloWorldFunction:
@@ -25,8 +26,24 @@ Resources:
             Method: get
     Metadata:
       Dockerfile: Dockerfile
-      DockerContext: ./hello_world
+      DockerContext: ./functions/hello_world
       DockerTag: python3.9-v1
+  RunBinaryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      Architectures:
+        - x86_64
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /binary
+            Method: get
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./functions/run_binary
+      DockerTag: python3-opencv
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
